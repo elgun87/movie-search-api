@@ -8,6 +8,7 @@ const movieNames = {
             let movieButton = document.createElement('button');
             movieButton.id = 'movies';
             movieButton.className = 'btn btn-danger';
+            movieButton.style = 'margin: 20px !important'
             movieButton.appendChild(document.createTextNode(this.movieLists[i]));
             $('#button_movie').append(movieButton);
         }
