@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron" style="text-align: center;">
+            <h1>Movie Search</h1>
+        </div>
+        <div id="button_movie"></div>
+        <label for="movie_input">Add a Movie Bro</label>
+        <input type="text" name="movie" id="movie_input">
+        <br>
+        <button id="add_movie" class="btn btn-warning">Add a Movie</button>
+        <br>
+        <br>
+        <div id="movie_info"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+    <script src="./main.js"></script>
+    <script>
+
+        function displayMovie (){
+            
+            let all_buttons = document.querySelectorAll('#movies');
+            all_buttons.forEach(items => {
+
+                var queryURL = "https://www.omdbapi.com/?t=" + items.innerHTML + "&y=&plot=short&apikey=trilogy";
+                items.addEventListener('click', function(){
+                    $.ajax({
+                        url: queryURL,
+                        method: 'GET',
+                        dataType: 'json',
+                    }).then(response =>{
+                        $('#movie_info').html('');
+                        $('#movie_info').append($(`<p>Name of the movie: ${response.Title}</p>`));
+                        $('#movie_info').append($(`<p>Released: ${response.Released}</p>`));
+                        $('#movie_info').append($(`<p>Rate: ${response.Rated}</p>`));
+                        $('#movie_info').append($(`<p>Runtime: ${response.Runtime}</p>`));
+                        $('#movie_info').append($(`<p>Genre: ${response.Genre}</p>`));
+                        $('#movie_info').append($(`<p>Director: ${response.Director}</p>`));
+                        $('#movie_info').append($(`<p>Actors: ${response.Actors}</p>`));
+                        $('#movie_info').append($(`<img src="${response.Poster}">`));
+                        console.log(response);
+                    });
+                });
+            });
+        }
+
+        displayMovie();
+
+        $('#add_movie').on('click',function(){
+            movieNames.addMovieToList();
+            displayMovie();
+        });
+    </script>
+</body>
+</html>
